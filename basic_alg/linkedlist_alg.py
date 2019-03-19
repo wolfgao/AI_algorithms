@@ -1,11 +1,32 @@
 class ListNode:
-    def __init__(self, x):
-        self.val = x
+    def __init__(self):
+        self.val = None
         self.next = None
 
 
+class SingleLinkedList:
+    def __init__(self):
+        self.node = None
+
+    def add_node(self, data: ListNode):
+        new_node = ListNode()
+        new_node.val = data
+        new_node.next = self.node
+        self.node = new_node  #set the current node is the new node
+
+    def list_print(self):
+        node = self.node
+        while node:
+            print(node.val)
+            node = node.next
+
 class Solution:
     def reverseList(self, head: ListNode) -> ListNode:
+        '''
+        https://leetcode.com/problems/reverse-linked-list/
+        :param head: a single Linked list
+        :return: A reverse Linked list
+        '''
         current = head
         previous = None
         while (current != None):
@@ -17,6 +38,7 @@ class Solution:
 
     def detectCycle(self, head):
         """
+        https://leetcode.com/problems/linked-list-cycle-ii/
         Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
         To represent a cycle in the given linked list, we use an integer pos which represents the position (0-indexed)
         in the linked list where tail connects to. If pos is -1, then there is no cycle in the linked list.
@@ -46,3 +68,10 @@ class Solution:
                 return p_slow
         return None
 
+
+if __name__ == '__main__':
+    alinkedlist = SingleLinkedList()
+    alinkedlist.add_node(1)
+    alinkedlist.add_node(2)
+    alinkedlist.add_node(4)
+    alinkedlist.list_print()
