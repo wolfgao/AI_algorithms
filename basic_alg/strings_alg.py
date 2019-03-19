@@ -2,7 +2,13 @@ from typing import List
 
 
 class Solution:
+
     def longestCommonPrefix(self, strs: List[str]) -> str:
+        '''
+        Try to get the largest prefex string which are same or common in this list.
+        :param strs:
+        :return: str: the largest prefix string are common in the list
+        '''
         # check if the strs is empty
         if len(strs) == 0:
             return ''

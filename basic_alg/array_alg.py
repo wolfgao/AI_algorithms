@@ -2,6 +2,12 @@ from typing import List
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
+        '''
+        Try to get the kth largest number of this array, supposed all are int numbers.
+        :param nums: a not empty array
+        :param k: the kth
+        :return: num: the kth largest number in this array
+        '''
         if len(nums) <=0: return None
         nums.sort(reverse=True)
         return nums[k-1]
