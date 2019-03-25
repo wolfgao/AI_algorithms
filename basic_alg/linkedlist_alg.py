@@ -1,16 +1,24 @@
+from typing import List
+
 class ListNode:
     def __init__(self):
         self.val = None
         self.next = None
 
-
 class SingleLinkedList:
     def __init__(self):
         self.node = None
 
+    def setList(self, nums: List):
+        if nums:
+            for data in nums:
+                node = ListNode()
+                node.val = data
+                self.add_node(node)
+
     def add_node(self, data: ListNode):
         new_node = ListNode()
-        new_node.val = data
+        new_node = data
         new_node.next = self.node
         self.node = new_node  #set the current node is the new node
 
@@ -68,10 +76,47 @@ class Solution:
                 return p_slow
         return None
 
+    def addTwoNumbers(self, l1, l2):
+        """
+        https://leetcode.com/problems/add-two-numbers/
+        You are given two non-empty linked lists representing two non-negative integers.
+        The digits are stored in reverse order and each of their nodes contain a single digit.
+        Add the two numbers and return it as a linked list.
+        You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+        Example:
+            Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+            Output: 7 -> 0 -> 8
+            Explanation: 342 + 465 = 807.
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        node = ListNode()
+        next_node = ListNode()
+        carry = 0
+        while l1 and l2:
+            v1 = v2 = 0
+            v1 = l1.val
+            v2 = l2.val
+            l1 = l1.next
+            l2 = l2.next
+
+            carry, node.val = divmod(v1 + v2 + carry, 10)
+
+            next_node.val = node.val
+            node = node.next
+
+        return node
 
 if __name__ == '__main__':
-    alinkedlist = SingleLinkedList()
-    alinkedlist.add_node(1)
-    alinkedlist.add_node(2)
-    alinkedlist.add_node(4)
-    alinkedlist.list_print()
+    a = [2,4,3]
+    b = [5,6,4]
+    al = SingleLinkedList()
+    al.setList(a)
+
+    bl = SingleLinkedList()
+    bl.setList(b)
+
+    cl = Solution().addTwoNumbers(Solution().reverseList(al.node), Solution().reverseList(bl.node))
+    print(Solution().reverseList(al.node).val)
+    print(cl.val)
