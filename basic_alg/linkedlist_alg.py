@@ -1,8 +1,8 @@
 from typing import List
 
 class ListNode:
-    def __init__(self):
-        self.val = None
+    def __init__(self, data):
+        self.val = data
         self.next = None
 
 class SingleLinkedList:
@@ -12,12 +12,10 @@ class SingleLinkedList:
     def setList(self, nums: List):
         if nums:
             for data in nums:
-                node = ListNode()
-                node.val = data
+                node = ListNode(data)
                 self.add_node(node)
 
     def add_node(self, data: ListNode):
-        new_node = ListNode()
         new_node = data
         new_node.next = self.node
         self.node = new_node  #set the current node is the new node
@@ -91,32 +89,37 @@ class Solution:
         :type l2: ListNode
         :rtype: ListNode
         """
-        node = ListNode()
-        next_node = ListNode()
+        root = node = ListNode(0)
         carry = 0
-        while l1 and l2:
+        one_more_loop = False
+        while l1 or l2 or carry:
             v1 = v2 = 0
-            v1 = l1.val
-            v2 = l2.val
-            l1 = l1.next
-            l2 = l2.next
-
-            carry, node.val = divmod(v1 + v2 + carry, 10)
-
-            next_node.val = node.val
+            if l1:
+                v1 = l1.val
+                l1 = l1.next
+            if l2:
+                v2 = l2.val
+                l2 = l2.next
+            carry, val = divmod(v1 + v2 + carry, 10)
+            node.next = ListNode(val)
             node = node.next
-
-        return node
+            if one_more_loop:
+                break
+            if l1 is None and l2 is None and carry>0:
+                one_more_loop = True
+        return root.next
 
 if __name__ == '__main__':
-    a = [2,4,3]
-    b = [5,6,4]
+    a = [5]
+    b = [5]
     al = SingleLinkedList()
     al.setList(a)
+    al.list_print()
 
     bl = SingleLinkedList()
     bl.setList(b)
+    bl.list_print()
 
-    cl = Solution().addTwoNumbers(Solution().reverseList(al.node), Solution().reverseList(bl.node))
-    print(Solution().reverseList(al.node).val)
-    print(cl.val)
+    cl = Solution().addTwoNumbers(al.node,bl.node)
+
+    print(cl.val, cl.next.val)
