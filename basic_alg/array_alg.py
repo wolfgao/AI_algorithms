@@ -68,12 +68,58 @@ class Solution:
 
         return min(dp[m - 1][n - 2], dp[m - 2][n - 1]) + grid[m - 1][n - 1]
 
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        '''
+        https://leetcode.com/problems/median-of-two-sorted-arrays/
+        Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+        if use sort function, it is two easy, so I am using another way to make them sorted first.
+        :param nums1: sorted array A
+        :param nums2: sorted array B
+        :return: median of A and B
+        '''
+        m = len(nums1)
+        n = len(nums2)
+        nums = []
+        if m <= 0 and n <= 0:
+            return None
+        if m <= 0 and n > 0:
+            nums = nums2
+        elif m >0 and n <= 0:
+            nums = nums1
+        else:
+            #the 2 arrays are all not empty
+            nums = nums2
+            jump = 0
+            for i in range(m):
+                for j in range(n):
+                    if nums1[i] < nums2[j]:
+                        nums = nums[:i+j] + nums1[i:i+1] + nums[i+j:]
+                        break
+                    elif nums1[i] > nums2[j]:
+                        # 最后一个元素
+                        if j == n - 1 or nums1[i] < nums2[j + 1]:
+                            if jump > 0:
+                                nums = nums[:i + j + 1] + nums1[i:i+1] + nums[i+j+1:]
+                            else:
+                                nums = nums[:i] + nums2[j:j+1] + nums1[i:i+1] + nums[i+1:]  # add 2 numbers
+                                jump += 1
+                            break
+                        jump += 1
+                    elif nums1[i] == nums2[j]:
+                        nums = nums[:i+j+1] + nums2[j:j+1] + nums[i+j+1:]
+                        break
+        print(nums)
+        if len(nums) % 2 != 0:
+            return float(nums[len(nums) // 2])
+        else:
+            return (nums[len(nums) // 2 - 1] + nums[len(nums) // 2]) / 2
+
 if __name__ == '__main__' :
-    a1 = [3,2,1,5,6,4]
-    a2 = [3,2,3,1,2,4,5,5,6]
+    a1 = [1,1,1,1,1,1,1,1,1,1,4,4]
+    a2 = [1,3,4,4,4,4,4,4,4,4,4]
     #print(Solution().findKthLargest(a2,3))
     a3 =[4,5,6,7,0,1,2]
     grid = [[1,3,1],[1,5,1],[4,2,1]]
     grid2 =[[2]]
     #print(Solution().findMin(a3))
-    print(Solution().minPathSum(grid))
+    print(Solution().findMedianSortedArrays(a1,a2))
